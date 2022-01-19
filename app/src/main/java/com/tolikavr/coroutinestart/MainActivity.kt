@@ -1,6 +1,7 @@
 package com.tolikavr.coroutinestart
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -22,14 +23,16 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun loadData() {
+    Log.d("MainActivity", "Load started $this")
     binding.progress.isVisible = true
     binding.buttonLoad.isEnabled = false
-    loadCity {
-      binding.tvLocation.text = it
-      loadTemperature(it) {
-        binding.tvTemperature.text = it.toString()
+    loadCity { city ->
+      binding.tvLocation.text = city
+      loadTemperature(city) { temp ->
+        binding.tvTemperature.text = temp.toString()
         binding.progress.isVisible = false
         binding.buttonLoad.isEnabled = true
+        Log.d("MainActivity", "Load finished $this")
       }
     }
   }
